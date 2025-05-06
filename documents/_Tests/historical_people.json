@@ -1,0 +1,46 @@
+{
+  "people": [
+    {
+      "id": "155cc21a-1d23-4915-b623-c96ec4513c51",
+      "first_name": "John James",
+      "middle_names": "",
+      "last_name": "Donaldson",
+      "birth_date": "1853-07-31",
+      "birth_place": "Bloomsbury, London, England",
+      "death_date": null,
+      "death_place": null,
+      "age_at_death": null,
+      "burial_place": null,
+      "occupation": "Clerk and long prison record",
+      "notes": "Parents \u2013 William Leverton Donaldson and Margaret"
+    },
+    {
+      "id": "c171185a-5ddb-4d67-9a4f-32b1199042c2",
+      "first_name": "Rosa Margaret Elizabeth",
+      "middle_names": "",
+      "last_name": "Blackler",
+      "birth_date": "1860-09-23",
+      "birth_place": "Port Adelaide, South Australia",
+      "death_date": "1916-02-21",
+      "death_place": "Armadale, Melbourne, Victoria",
+      "age_at_death": 55,
+      "burial_place": "Brighton Cemetery",
+      "occupation": null,
+      "notes": "Abode \u2013 1882, Lipson street, Adelaide; Last abode \u2013 23 Wynnestay road, Armadale"
+    }
+  ],
+  "marriages": [
+    {
+      "id": "ea9c6afa-55bc-4fcf-98d9-9698a7181f91",
+      "person1_id": "155cc21a-1d23-4915-b623-c96ec4513c51",
+      "person2_id": "c171185a-5ddb-4d67-9a4f-32b1199042c2",
+      "date": "1878-06-27",
+      "location": "Egerton House, Semaphore, South Australia",
+      "book_page": "bk115/pg1143",
+      "notes": "Groom \u2013 24, single; Bride \u2013 18, single"
+    }
+  ],
+  "events": [],
+  "parent_child": [],
+  "military_service": []
+}
