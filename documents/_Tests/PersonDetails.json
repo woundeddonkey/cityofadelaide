@@ -1,0 +1,12 @@
+{
+  "first_name": "John",
+  "middle_names": "William",
+  "last_name": "Smith",
+  "gender": "Male",
+  "birth_date": "1850-03-15",
+  "birth_place": "London, England",
+  "death_date": "1920-11-23",
+  "death_place": "Adelaide, Australia",
+  "age_at_death": "70 years",
+  "burial_place": "Adelaide Cemetery"
+}
