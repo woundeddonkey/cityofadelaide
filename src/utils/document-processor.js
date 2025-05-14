@@ -1,98 +1,64 @@
+// filepath: /Users/richardcrawford/projects/cityofadelaide/src/utils/document-processor.js
 import mammoth from 'mammoth';
-import { Validator } from 'jsonschema';
-import { PERSON_EXTRACTION_PROMPT } from '../prompts/person-extraction-prompt.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { extractPersonFromDocument } from './person/person-extractor.js';
+import { llmFactory, registerAllProviders } from './llm/index.js';
 
 // Get the directory name using import.meta
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Read the schema file directly instead of importing it
-const personSchemaPath = path.join(__dirname, '..', 'schemas', 'person-schema.json');
-const personSchema = JSON.parse(fs.readFileSync(personSchemaPath, 'utf8'));
+// Initialize the LLM providers if needed
+let providersInitialized = false;
 
 /**
- * A stubbed LLM function that returns a valid person JSON
- * This is just for testing purposes and would be replaced with a real LLM call
- * @param {string} prompt - The prompt with document text to analyze
- * @returns {string} - JSON string representing the extracted person data
+ * Initialize all available LLM providers
+ * This is called automatically when needed
  */
-async function stubbedLLM(prompt) {
-  console.log('Received prompt:', prompt.substring(0, 100) + '...');
+async function initializeLLMProviders() {
+  if (providersInitialized) return;
   
-  // Skip trying to extract document text for now as it may not be in the expected format
-  console.log('Document processing requested...');
-  
-  // Return a stubbed valid person JSON
-  // In a real implementation, this would come from the LLM
-  const mockPerson = {
-    first_name: "John",
-    middle_names: "William",
-    last_name: "Smith",
-    gender: "Male",
-    birth_date: "1850-03-15",
-    birth_place: "London, England",
-    death_date: "1920-11-23",
-    death_place: "Adelaide, Australia",
-    age_at_death: "70 years",
-    burial_place: "Adelaide Cemetery"
-  };
-  
-  return JSON.stringify(mockPerson);
+  try {
+    await registerAllProviders();
+    providersInitialized = true;
+    
+    // Set the default provider based on environment or configuration
+    // This could be read from a config file or environment variable
+    const defaultProvider = process.env.DEFAULT_LLM_PROVIDER || 'mock';
+    if (llmFactory.providers[defaultProvider]) {
+      llmFactory.setDefaultProvider(defaultProvider);
+    }
+  } catch (error) {
+    console.error('Error initializing LLM providers:', error);
+  }
 }
 
 /**
  * Process a Word document to extract person information
  * @param {string} filePath - Path to the Word document
+ * @param {Object} options - Options for processing
  * @returns {Promise<Object>} - Result of processing
  */
-export async function processWordDocument(filePath) {
+export async function processWordDocument(filePath, options = {}) {
   try {
+    // Initialize LLM providers if not already done
+    if (!providersInitialized) {
+      await initializeLLMProviders();
+    }
+    
     // 1. Extract text from Word document
     console.log(`Processing document: ${filePath}`);
     const { value: docText } = await mammoth.extractRawText({ path: filePath });
     
-    // 2. Prepare prompt with document text
-    const prompt = PERSON_EXTRACTION_PROMPT.replace('[DOCUMENT_TEXT]', docText);
+    // 2. Use the person extractor to process the document text
+    const extractionResult = await extractPersonFromDocument(docText, {
+      llm: options.llm || null,
+      llmOptions: options.llmOptions || {}
+    });
     
-    // 3. Call the stubbed LLM
-    console.log('Calling LLM...');
-    const llmResponse = await stubbedLLM(prompt);
-    
-    // 4. Parse and validate the JSON
-    let personData;
-    try {
-      personData = JSON.parse(llmResponse);
-      
-      // Validate against schema
-      const validator = new Validator();
-      const validationResult = validator.validate(personData, personSchema);
-      
-      if (!validationResult.valid) {
-        console.error("Validation errors:", validationResult.errors);
-        return { 
-          success: false, 
-          errors: validationResult.errors,
-          data: personData
-        };
-      }
-      
-      // 5. Return the validated person data
-      // In a real implementation, you would save this to Amplify here
-      return { 
-        success: true, 
-        data: personData 
-      };
-    } catch (error) {
-      console.error("Error parsing LLM response:", error);
-      return { 
-        success: false, 
-        error: `Error parsing LLM response: ${error.message}`,
-        rawResponse: llmResponse
-      };
-    }
+    return extractionResult;
   } catch (error) {
     console.error("Error processing document:", error);
     return { 
@@ -108,4 +74,29 @@ export async function processWordDocument(filePath) {
  */
 export function getSampleDocumentPath() {
   return '/Users/richardcrawford/projects/cityofadelaide/documents/_Tests/PersonDetails.docx';
+}
+
+/**
+ * Configure the document processor with specific options
+ * @param {Object} options - Configuration options
+ * @param {string} options.llmProvider - The LLM provider to use (e.g., 'openai', 'mock')
+ * @param {Object} options.llmOptions - Options to pass to the LLM
+ * @returns {Object} - The configuration status
+ */
+export function configureDocumentProcessor(options = {}) {
+  try {
+    if (options.llmProvider) {
+      if (llmFactory.providers[options.llmProvider]) {
+        llmFactory.setDefaultProvider(options.llmProvider);
+        console.log(`Set default LLM provider to ${options.llmProvider}`);
+      } else {
+        console.warn(`Provider '${options.llmProvider}' is not registered`);
+      }
+    }
+    
+    return { success: true };
+  } catch (error) {
+    console.error("Error configuring document processor:", error);
+    return { success: false, error: error.message };
+  }
 }

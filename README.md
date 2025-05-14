@@ -39,6 +39,7 @@ This project follows a modern serverless architecture pattern with clear separat
   - Avoid using `any` type
 - **State Management**: Use React hooks for state management
 - **Amplify Schema**: Keep data models in the schema definition file
+- **LLM Architecture**: Use the flexible LLM abstraction layer for document processing
 
 ### 3.2 Coding Standards
 
@@ -49,6 +50,87 @@ This project follows a modern serverless architecture pattern with clear separat
   - Avoid deep nesting of conditionals and loops
 - **TypeScript Standards**:
   - Use proper TypeScript interfaces for all data structures
+
+## 4. Document Processing with LLM Architecture
+
+The project includes a flexible Large Language Model (LLM) architecture for processing historical documents, with the following features:
+
+### 4.1 Key Features
+
+- **Multiple LLM Providers**: Support for OpenAI and easy extension to other providers
+- **Mock Implementation**: Built-in mock LLM for testing and development
+- **Recording/Replaying**: Ability to record and replay LLM responses
+- **Easy Configuration**: Simple API for configuring and using different providers
+
+### 4.2 Usage
+
+#### Processing Documents
+
+Use the document processor script to process Word documents:
+
+```bash
+# Use the default mock LLM
+node process-document.js path/to/document.docx
+
+# Use OpenAI
+node process-document.js path/to/document.docx --provider=openai
+
+# Show help
+node process-document.js --help
+```
+
+#### Using the API in Your Code
+
+```javascript
+import { processWordDocument, configureDocumentProcessor } from './src/utils/document-processor.js';
+
+// Configure to use OpenAI (requires OPENAI_API_KEY environment variable)
+configureDocumentProcessor({ llmProvider: 'openai' });
+
+// Process a document
+const result = await processWordDocument('path/to/document.docx', {
+  llmOptions: {
+    model: 'gpt-4o',
+    temperature: 0.1
+  }
+});
+
+// Use the extracted data
+if (result.success) {
+  console.log('Extracted data:', result.data);
+}
+```
+
+#### Mock LLM for Testing
+
+```javascript
+import { processWordDocument } from './src/utils/document-processor.js';
+import { MockLLM } from './src/utils/llm/mock-llm.js';
+
+// Create a custom mock with predefined responses
+const mockLLM = new MockLLM({
+  defaultResponse: JSON.stringify({
+    first_name: "John",
+    last_name: "Smith"
+  })
+});
+
+// Process with the custom mock
+const result = await processWordDocument('path/to/document.docx', {
+  llm: mockLLM
+});
+```
+
+### 4.3 Architecture
+
+- `src/utils/document-processor.js` - Main entry point for document processing
+- `src/utils/person/person-extractor.js` - Person extraction logic
+- `src/utils/llm/` - LLM abstraction layer
+  - `llm-interface.js` - Base interface for LLM providers
+  - `llm-factory.js` - Factory for creating LLM instances
+  - `mock-llm.js` - Mock LLM for testing
+  - `openai-llm.js` - OpenAI implementation
+  - `index.js` - Main exports and provider registration
   - Leverage TypeScript's type system to prevent runtime errors
 - **React Best Practices**:
   - Use functional components with hooks

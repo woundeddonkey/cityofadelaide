@@ -4,20 +4,60 @@
  * CLI tool to process Word documents and extract person information
  * 
  * Usage:
- *   node process-document.js [path/to/document.docx]
+ *   node process-document.js [path/to/document.docx] [--provider=<provider>]
+ * 
+ * Options:
+ *   --provider=<provider>  Specify the LLM provider to use (mock, openai)
+ *   --help                 Show help
  * 
  * If no document path is provided, a sample document will be used.
  */
 
-import { processWordDocument, getSampleDocumentPath } from './src/utils/document-processor.js';
+import { processWordDocument, getSampleDocumentPath, configureDocumentProcessor } from './src/utils/document-processor.js';
+import { registerAllProviders } from './src/utils/llm/index.js';
 import fs from 'fs';
 import path from 'path';
 
 async function main() {
   try {
-    // Get document path from command line or use sample
-    let docPath = process.argv[2];
+    // Parse command line arguments
+    const args = process.argv.slice(2);
+    let docPath = null;
+    let provider = 'mock';
+    let showHelp = false;
     
+    // Parse arguments
+    for (const arg of args) {
+      if (arg.startsWith('--provider=')) {
+        provider = arg.split('=')[1];
+      } else if (arg === '--help') {
+        showHelp = true;
+      } else if (!arg.startsWith('--')) {
+        docPath = arg;
+      }
+    }
+    
+    if (showHelp) {
+      console.log(`
+Usage:
+  node process-document.js [path/to/document.docx] [--provider=<provider>]
+
+Options:
+  --provider=<provider>  Specify the LLM provider to use (mock, openai)
+  --help                 Show help
+      `);
+      process.exit(0);
+    }
+    
+    // Initialize all available LLM providers
+    console.log('Initializing LLM providers...');
+    await registerAllProviders();
+    
+    // Configure the document processor to use the specified provider
+    configureDocumentProcessor({ llmProvider: provider });
+    console.log(`Using LLM provider: ${provider}`);
+    
+    // Get document path or use sample
     if (!docPath) {
       docPath = getSampleDocumentPath();
       console.log(`No document path provided. Using sample: ${docPath}`);
