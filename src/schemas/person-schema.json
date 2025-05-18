@@ -9,7 +9,7 @@
       "description": "First name of the person"
     },
     "middle_names": {
-      "type": "string",
+      "type": ["string", "null"],
       "description": "Middle name(s) of the person"
     },
     "last_name": {
@@ -17,34 +17,34 @@
       "description": "Last name of the person"
     },
     "gender": {
-      "type": "string",
+      "type": ["string", "null"],
       "description": "Gender of the person, can be Male, Female or Null if unknown",
       "enum": ["Male", "Female", null]
     },
     "birth_date": {
-      "type": "string",
+      "type": ["string", "null"],
       "format": "date",
       "description": "Date the person was born (YYYY-MM-DD format)"
     },
     "birth_place": {
-      "type": "string",
+      "type": ["string", "null"],
       "description": "Place of birth for the person"
     },
     "death_date": {
-      "type": "string",
+      "type": ["string", "null"],
       "format": "date",
       "description": "Date the person died (YYYY-MM-DD format)"
     },
     "death_place": {
-      "type": "string",
+      "type": ["string", "null"],
       "description": "Location the person died"
     },
     "age_at_death": {
-      "type": "string",
+      "type": ["string", "null"],
       "description": "Age of the person at death"
     },
     "burial_place": {
-      "type": "string",
+      "type": ["string", "null"],
       "description": "Place the person was buried"
     }
   },

@@ -163,7 +163,17 @@ Options:
     // Display the results
     if (result.success) {
       console.log('\nExtracted Person Data:');
-      console.log(JSON.stringify(result.data, null, 2));
+      const persons = result.data;
+      
+      if (Array.isArray(persons) && persons.length > 0) {
+        console.log(`Found ${persons.length} person(s) in the document`);
+        persons.forEach((person, index) => {
+          console.log(`\nPerson #${index + 1}:`);
+          console.log(JSON.stringify(person, null, 2));
+        });
+      } else {
+        console.log(JSON.stringify(result.data, null, 2));
+      }
       
       // Save the result to a JSON file in the same directory as the Word document
       const outputDir = path.dirname(docPath);
