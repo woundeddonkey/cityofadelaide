@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Person",
+  "description": "Details of a passenger or crew member that traveled on the City of Adelaide ship",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string",
+      "description": "First name of the person"
+    },
+    "middle_names": {
+      "type": ["string", "null"],
+      "description": "Middle name(s) of the person"
+    },
+    "last_name": {
+      "type": "string",
+      "description": "Last name of the person"
+    },
+    "gender": {
+      "type": ["string", "null"],
+      "description": "Gender of the person, can be Male, Female or Null if unknown",
+      "enum": ["Male", "Female", null]
+    },
+    "birth_date": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Date the person was born (YYYY-MM-DD format)"
+    },
+    "birth_place": {
+      "type": ["string", "null"],
+      "description": "Place of birth for the person"
+    },
+    "death_date": {
+      "type": ["string", "null"],
+      "format": "date",
+      "description": "Date the person died (YYYY-MM-DD format)"
+    },
+    "death_place": {
+      "type": ["string", "null"],
+      "description": "Location the person died"
+    },
+    "age_at_death": {
+      "type": ["string", "null"],
+      "description": "Age of the person at death"
+    },
+    "burial_place": {
+      "type": ["string", "null"],
+      "description": "Place the person was buried"
+    }
+  },
+  "required": ["first_name", "last_name"]
+}

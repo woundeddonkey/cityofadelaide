@@ -1,0 +1,143 @@
+[
+  {
+    "first_name": "Alfred",
+    "middle_names": "Stanley",
+    "last_name": "Cheadle",
+    "gender": "Male",
+    "birth_date": "1853-06-15",
+    "birth_place": "Halifax, Metropolitan Borough of Calderdale, West Yorkshire, England",
+    "death_date": "1923-01-05",
+    "death_place": "Victor Harbor, South Australia",
+    "age_at_death": "69 years",
+    "burial_place": "Saint Judes Cemetery, Brighton, South Australia"
+  },
+  {
+    "first_name": "Margaret",
+    "last_name": "Loutit",
+    "gender": "Female",
+    "birth_date": "1865-01-14",
+    "birth_place": "Gawler, South Australia",
+    "death_date": "1946-07-29",
+    "death_place": "North Adelaide, South Australia",
+    "age_at_death": "81 years",
+    "burial_place": "Saint Judes Cemetery, Brighton, South Australia"
+  },
+  {
+    "first_name": "Thomas",
+    "middle_names": "Stanley",
+    "last_name": "Cheadle",
+    "gender": "Male",
+    "birth_date": "1887-07-12",
+    "birth_place": "East Adelaide, South Australia",
+    "death_date": "1959-01-22",
+    "death_place": "Adelaide, South Australia",
+    "age_at_death": "71 years",
+    "burial_place": "Centennial Park Cemetery, East Area, Rose Bed, N8, position 040"
+  },
+  {
+    "first_name": "Norah",
+    "middle_names": "Rivoli",
+    "last_name": "Murphy",
+    "gender": "Female",
+    "birth_date": "1898-12-03",
+    "birth_place": "Beachport, South Australia",
+    "death_date": "1962-01-04",
+    "death_place": "North Adelaide, South Australia",
+    "age_at_death": "63 years",
+    "burial_place": "Centennial Park Cemetery, East Area, Rose Bed, N8, position 041"
+  },
+  {
+    "first_name": "Agnes",
+    "last_name": "Cheadle",
+    "gender": "Female",
+    "birth_date": "1891-02-22",
+    "birth_place": "East Adelaide, South Australia",
+    "death_date": "1973-01-01",
+    "death_place": "Kyneton, Victoria",
+    "age_at_death": "81 years",
+    "burial_place": "Macedon Cemetery"
+  },
+  {
+    "first_name": "James",
+    "middle_names": "Hugh Paterson",
+    "last_name": "Davis",
+    "gender": "Male",
+    "birth_date": "1880-08-16",
+    "birth_place": "Magill, South Australia",
+    "death_date": "1967-10-31",
+    "death_place": "Gisborne, Victoria",
+    "age_at_death": "87 years",
+    "burial_place": "Macedon Cemetery"
+  },
+  {
+    "first_name": "Mary",
+    "middle_names": "Alison",
+    "last_name": "Cheadle",
+    "gender": "Female",
+    "birth_date": "1896-12-27",
+    "birth_place": "Glenelg, South Australia",
+    "death_date": "1983-03-15",
+    "death_place": "Adelaide, South Australia",
+    "age_at_death": "86 years",
+    "burial_place": "Brighton Cemetery"
+  },
+  {
+    "first_name": "Jefferson",
+    "middle_names": "Hirst",
+    "last_name": "Walker",
+    "gender": "Male",
+    "birth_date": "1901-07-16",
+    "birth_place": "Hawthorn, Victoria",
+    "death_date": "1941-11-27",
+    "death_place": "Tobruk",
+    "age_at_death": "40 years",
+    "burial_place": "Plymouth Naval Memorial, Plymouth, Devon, England"
+  },
+  {
+    "first_name": "Frances",
+    "middle_names": "Margaret",
+    "last_name": "Cheadle",
+    "gender": "Female",
+    "birth_date": "1900-05-20",
+    "birth_place": "Glenelg, South Australia",
+    "death_date": "1995-08-14",
+    "death_place": "Adelaide, South Australia",
+    "age_at_death": "95 years",
+    "burial_place": "Brighton Cemetery"
+  },
+  {
+    "first_name": "Dominic",
+    "middle_names": "Mary Paul",
+    "last_name": "McGuire",
+    "gender": "Male",
+    "birth_date": "1903-04-03",
+    "birth_place": "Peterborough, South Australia",
+    "death_date": "1978-06-15",
+    "death_place": "Adelaide, South Australia",
+    "age_at_death": "75 years",
+    "burial_place": "Brighton Cemetery"
+  },
+  {
+    "first_name": "Peter",
+    "middle_names": "Roland",
+    "last_name": "Cheadle",
+    "gender": "Male",
+    "birth_date": "1906-09-09",
+    "birth_place": "Glenelg, South Australia",
+    "death_date": "1985-03-31",
+    "death_place": "South Australia",
+    "age_at_death": "78 years",
+    "burial_place": "Enfield Memorial Park Cemetery, RC, CGV, site 8"
+  },
+  {
+    "first_name": "Jessie",
+    "last_name": "Stodart",
+    "gender": "Female",
+    "birth_date": "1902-01-01",
+    "birth_place": "Parkside, South Australia",
+    "death_date": "1997-10-30",
+    "death_place": "Walkerville, South Australia",
+    "age_at_death": "95 years",
+    "burial_place": "Enfield Memorial Park Cemetery, RC, CGV, site 8"
+  }
+]

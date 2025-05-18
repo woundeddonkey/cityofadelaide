@@ -1,0 +1,38 @@
+[
+  {
+    "first_name": "James",
+    "middle_names": null,
+    "last_name": "Smith",
+    "gender": "Male",
+    "birth_date": "1850-01-01",
+    "birth_place": "London, England",
+    "death_date": "1920-05-15",
+    "death_place": "Adelaide, Australia",
+    "age_at_death": "70 years",
+    "burial_place": "Adelaide Cemetery"
+  },
+  {
+    "first_name": "Sarah",
+    "middle_names": "Jane",
+    "last_name": "Smith",
+    "gender": "Female",
+    "birth_date": "1855-03-12",
+    "birth_place": "Liverpool, England",
+    "death_date": "1925-08-20",
+    "death_place": "Adelaide, Australia",
+    "age_at_death": "70 years",
+    "burial_place": "Adelaide Cemetery"
+  },
+  {
+    "first_name": "William",
+    "middle_names": "Henry",
+    "last_name": "Smith",
+    "gender": "Male",
+    "birth_date": "1880-11-05",
+    "birth_place": "At sea, aboard City of Adelaide",
+    "death_date": "1950-02-10",
+    "death_place": "Melbourne, Australia",
+    "age_at_death": "69 years",
+    "burial_place": "Melbourne Cemetery"
+  }
+]
