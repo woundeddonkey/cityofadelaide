@@ -118,8 +118,12 @@ export class AnthropicLLM extends LLMInterface {
         max_tokens: maxTokens
       });
       
-      // Return the content of the response
-      return response.content[0].text;
+      // Validate and return the content of the response
+      if (Array.isArray(response.content) && response.content.length > 0 && response.content[0].text) {
+        return response.content[0].text;
+      } else {
+        throw new Error('Invalid response format: content is missing or improperly structured');
+      }
     } catch (error) {
       console.error('Error calling Anthropic Claude API:', error.message);
       throw new Error(`Claude API error: ${error.message}`);
