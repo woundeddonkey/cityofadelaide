@@ -1,10 +1,9 @@
-// filepath: /Users/richardcrawford/projects/cityofadelaide/src/utils/document-processor.js
 import mammoth from 'mammoth';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { extractPersonFromDocument } from './person/person-extractor.js';
-import { llmFactory, registerAllProviders } from './llm/index.js';
+import { llmFactory, registerAllProviders, getAvailableProviders } from './llm/index.js';
 
 // Get the directory name using import.meta
 const __filename = fileURLToPath(import.meta.url);
@@ -27,9 +26,14 @@ async function initializeLLMProviders() {
     // Set the default provider based on environment or configuration
     // This could be read from a config file or environment variable
     const defaultProvider = process.env.DEFAULT_LLM_PROVIDER || 'mock';
-    if (llmFactory.providers[defaultProvider]) {
+    const availableProviders = getAvailableProviders();
+    
+    if (availableProviders.includes(defaultProvider)) {
       llmFactory.setDefaultProvider(defaultProvider);
     }
+    
+    console.log(`Available LLM providers: ${availableProviders.join(', ')}`);
+    console.log(`Default provider: ${llmFactory.defaultProvider}`);
   } catch (error) {
     console.error('Error initializing LLM providers:', error);
   }
@@ -54,8 +58,9 @@ export async function processWordDocument(filePath, options = {}) {
     
     // 2. Use the person extractor to process the document text
     const extractionResult = await extractPersonFromDocument(docText, {
-      llm: options.llm || null,
-      llmOptions: options.llmOptions || {}
+      llm: options.llm,
+      llmOptions: options.llmOptions || {},
+      provider: options.provider // Pass the provider name
     });
     
     return extractionResult;
