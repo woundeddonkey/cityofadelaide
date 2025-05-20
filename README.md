@@ -42,6 +42,7 @@ This project follows a modern serverless architecture pattern with clear separat
 - **State Management**: Use React hooks for state management
 - **Amplify Schema**: Keep data models in the schema definition file
 - **LLM Architecture**: Use the flexible LLM abstraction layer for document processing
+- **Document Testing**: Use the test verification framework to ensure document extraction remains accurate over time
 
 ### 3.2 Coding Standards
 
@@ -279,3 +280,101 @@ llmFactory.registerProvider('custom-mock', MockLLM,
 - `npm run build`: Build production version
 - `npm run lint`: Run ESLint
 - `npm run typecheck`: Run TypeScript type checking
+
+## 6. Document Processing and Testing
+
+The application includes a document processing system that extracts information from historical documents (primarily Word documents) and converts them into structured data.
+
+### 6.1 Document Processor
+
+The document processor (`src/utils/document-processor.js`) is responsible for:
+
+1. Extracting raw text from Word documents using the `mammoth` library
+2. Saving the extracted text in the same folder as the original document
+3. Using LLM-based extraction to identify person details from the text
+4. Saving the extracted JSON data alongside the original document
+
+### 6.2 Testing Document Extraction
+
+To ensure the accuracy of document extraction, we've implemented a test verification framework:
+
+#### Creating Expected JSON Files
+
+You can create template expected JSON files using the `generate-expected-json.js` script:
+
+```bash
+# Use the default provider (mock)
+node generate-expected-json.js /path/to/document.docx
+
+# Specify a specific LLM provider
+node generate-expected-json.js --provider openai /path/to/document.docx
+
+# Or use the npm script
+npm run generate:expected -- /path/to/document.docx
+npm run generate:expected:openai -- /path/to/document.docx
+npm run generate:expected:claude -- /path/to/document.docx
+```
+
+This will process the document and create a `.expected.json` file in the same folder. You can then edit this file to represent the correct expected output.
+
+#### Running Verification Tests
+
+To verify document extraction against expected JSON files:
+
+```bash
+# Use the default provider
+node test-extraction-verification.js
+
+# Specify a specific LLM provider
+node test-extraction-verification.js --provider openai
+
+# With npm scripts
+npm run test:extraction
+npm run test:extraction:openai
+npm run test:extraction:claude
+```
+
+This script will:
+1. Find all `.docx` files in the documents directory (excluding the `_Tests` folder)
+2. Look for matching `.expected.json` files
+3. Process each document and compare the extraction results with the expected output
+4. Report any differences or discrepancies
+
+Optionally, you can specify a specific directory to test:
+
+```bash
+node test-extraction-verification.js ./documents/Specific_Family
+```
+
+#### Custom Test Configuration
+
+For more advanced testing needs, you can use the custom test script that allows specifying directories to include or exclude:
+
+```bash
+# Exclude specific directories (default excludes _Tests)
+node test-custom-extraction.js --exclude "_Tests,Ahun,Baker"
+
+# Include only specific directories
+node test-custom-extraction.js --include "Cheadle,Frame,Fox"
+
+# Combine with provider selection
+node test-custom-extraction.js --provider openai --include "Cheadle,Frame"
+```
+
+With npm scripts:
+```bash
+npm run test:custom -- --exclude "_Tests,Ahun"
+npm run test:custom -- --include "Frame,Cheadle" --provider openai
+```
+
+The custom test script gives you more control over which document folders are processed during testing.
+
+#### Test Result Interpretation
+
+The test framework reports:
+- Missing fields that were expected but not extracted
+- Value mismatches between expected and actual data
+- Nested object differences
+- Overall test success/failure statistics
+
+These tests should be run before making changes to the extraction system to ensure that existing functionality isn't broken.

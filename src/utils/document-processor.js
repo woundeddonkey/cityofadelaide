@@ -56,12 +56,28 @@ export async function processWordDocument(filePath, options = {}) {
     console.log(`Processing document: ${filePath}`);
     const { value: docText } = await mammoth.extractRawText({ path: filePath });
     
+    // Save the extracted text to a file in the same folder as the Word document
+    const textFilePath = generateOutputPath(filePath, '.txt');
+    await fs.promises.writeFile(textFilePath, docText, 'utf8');
+    console.log(`Saved extracted text to: ${textFilePath}`);
+    
     // 2. Use the person extractor to process the document text
     const extractionResult = await extractPersonFromDocument(docText, {
       llm: options.llm,
       llmOptions: options.llmOptions || {},
       provider: options.provider // Pass the provider name
     });
+    
+    // Save the extraction result to a JSON file in the same folder as the Word document
+    if (extractionResult.success && options.saveResults !== false) {
+      const jsonFilePath = generateOutputPath(filePath, '.json');
+      await fs.promises.writeFile(jsonFilePath, JSON.stringify(extractionResult, null, 2), 'utf8');
+      console.log(`Saved extraction results to: ${jsonFilePath}`);
+      
+      // Add the saved file paths to the result
+      extractionResult.textFilePath = textFilePath;
+      extractionResult.jsonFilePath = jsonFilePath;
+    }
     
     return extractionResult;
   } catch (error) {
@@ -71,6 +87,17 @@ export async function processWordDocument(filePath, options = {}) {
       error: `Error processing document: ${error.message}`
     };
   }
+}
+
+/**
+ * Generate an output file path based on the input file path and extension
+ * @param {string} inputFilePath - The original file path
+ * @param {string} extension - The extension for the output file (including '.')
+ * @returns {string} - The generated output file path
+ */
+function generateOutputPath(inputFilePath, extension) {
+  const parsedPath = path.parse(inputFilePath);
+  return path.join(parsedPath.dir, `${parsedPath.name}${extension}`);
 }
 
 /**

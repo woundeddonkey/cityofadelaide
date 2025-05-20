@@ -8,7 +8,20 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx,js,jsx",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:extraction": "node test-extraction-verification.js",
+    "test:extraction:openai": "node test-extraction-verification.js --provider openai",
+    "test:extraction:claude": "node test-extraction-verification.js --provider claude",
+    "test:extraction:mock": "node test-extraction-verification.js --provider mock",
+    "test:custom": "node test-custom-extraction.js",
+    "test:custom:include": "node test-custom-extraction.js --include",
+    "test:custom:exclude": "node test-custom-extraction.js --exclude",
+    "generate:expected": "node generate-expected-json.js",
+    "generate:expected:openai": "node generate-expected-json.js --provider openai",
+    "generate:expected:claude": "node generate-expected-json.js --provider claude",
+    "example": "node example-document-testing.js",
+    "example:openai": "node example-document-testing.js --provider openai",
+    "example:claude": "node example-document-testing.js --provider claude"
   },
   "dependencies": {
     "@aws-amplify/ui-react": "^6.11.1",
